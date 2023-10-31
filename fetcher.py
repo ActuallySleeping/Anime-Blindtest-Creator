@@ -2,17 +2,22 @@ import requests, json, sys, os, json
 
 VIDEO_URL = "https://v.animethemes.moe"
 
+def FileName(file):
+    return os.path.splitext(file)[0]
+
 def checkDoubles(type, anime):
     songs = []
     multiples = False
     
     for key in anime[type].keys():
         for song in anime[type][key]:
+            song = FileName(song)
+            song = song.split('-')[0] + song.split('-')[1]
             if song in songs:
                 print("Song: " + song + " appears multiple times")
                 multiples = True
             else:
-                songs.append(song)
+                songs.append(song.split('-')[0])
     if multiples:
         print("Multiple songs with the same name, please fix the json file")
         exit(1)  
@@ -37,14 +42,19 @@ def download(song, type, key):
     else:
         dl = 0
         length = int(length)
+        total = b''
+        for data in r.iter_content(chunk_size=1024*1024):
+            dl += len(data)
+            done = int(50 * dl / length)
+            total += data
+            
+            sys.stdout.write("\r[%s%s] %s/%sMB" % ('=' * done, ' ' * (50-done), round(dl/(1024*1024), 2), round(length/(1024*1024), 2)))
+            sys.stdout.flush()
+                
         with open(type + "/" + key + "/" + song, "wb") as f:
-            for data in r.iter_content(chunk_size=4096):
-                dl += len(data)
-                f.write(data)
-                done = int(50 * dl / length)
-                sys.stdout.write("\r[%s%s]" % ('=' * done, ' ' * (50-done)) )
-                sys.stdout.flush()
+            f.write(total)
         print()
+
 
 with open("src/config.json", "r") as f:
     anime = json.load(f)['animes']
@@ -67,11 +77,14 @@ with open("src/config.json", "r") as f:
                 
     # creating the json file with the file name, the opening/ending number, the author and the song title with the animethemes.moe API
     API = "https://api.animethemes.moe/"
-    saved = {}
+    saved = json.load(open("OUT/songs.json", "r"))
     
     for type in anime.keys():
         for key in anime[type].keys():
             for song in anime[type][key]:
+                if song in saved.keys():
+                    continue
+                
                 r = requests.get(API + 'video/' + song + '?include=animethemeentries.animetheme.anime')
                 
                 if r.status_code != 200:

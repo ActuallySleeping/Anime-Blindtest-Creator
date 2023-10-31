@@ -1,5 +1,4 @@
-import moviepy.editor as mp
-import os, re, pyloudnorm as pln, soundfile as sf, json, sys
+import moviepy.editor as mp, os, pyloudnorm as pln, soundfile as sf, json, sys, random
 
 OUTPUT = 'Videos'
 
@@ -8,13 +7,7 @@ def FileName(file):
 
 
 def CreateAudio(folder, dif, file):
-    start = 0
-    try :
-        start = int(file.split('_')[4])
-    except:
-        start = 0
-        
-    mp.AudioFileClip(folder + '/' + dif + '/' + file).subclip(start, 30 + start) \
+    mp.AudioFileClip(folder + '/' + dif + '/' + file).subclip(0, 30) \
         .audio_fadeout(2) \
         .write_audiofile(FileName(file) + '.mp3', verbose=False, logger=None)
     
@@ -31,16 +24,14 @@ def createVideo(folder, dif, file, data):
     
     CreateAudio(folder, dif, file)
     
-    split = file.split('.mp4')[0].split('_')
     anime, num, author, song = ' / '.join(data['animes']), ' / '.join(data['numbers']), ' / '.join(data['artists']), ' / '.join(data['songs'])
-    start = 0
-    try :
-        start = int(split[4])
-    except:
-        start = 0
         
-    clip = mp.VideoFileClip(folder + '/' + dif + '/' + file, target_resolution=(720, 1280)).subclip(20 + start, 30 + start)
+    clip = mp.VideoFileClip(folder + '/' + dif + '/' + file, target_resolution=(720, 1280)).subclip(20, 30)
     timer = mp.VideoFileClip('src/timer.mp4').subclip(10, 30)
+    
+    txt_clip = mp.TextClip(dif, fontsize=40, font='Impact', color='white', align='west') \
+        .set_pos(('center','top')).set_duration(20)
+    timer = mp.CompositeVideoClip([timer, txt_clip])
     
     txt = ' ' + anime + ' - ' + num + '\n ' + author + '\n ' + song 
     txt_clip = mp.TextClip(txt, fontsize=40, font='Impact', color='white', align='west')
@@ -65,7 +56,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == 'ending':
         folder = 'Endings'
     
-    from multiprocessing import Pool
+    from multiprocessing import Pool, cpu_count
     
     difficulties = os.listdir(folder)
     songs = []
@@ -82,7 +73,7 @@ if __name__ == '__main__':
     if not os.path.exists(OUTPUT):
         os.mkdir(OUTPUT)
     
-    with Pool(24) as p:
+    with Pool(min(cpu_count() - 2, 1)) as p:
         p.starmap(createVideo, [song for song in songs])
         p.close()
         p.join()
@@ -90,6 +81,8 @@ if __name__ == '__main__':
     print('\nDone creating videos, starting to concatenate them')
         
     files = os.listdir(OUTPUT)
+    random.shuffle(files)
+    
     # sort the files by the order of the categories befined in src/config.json
     configs = json.load(open('src/config.json'))
     order = configs['order']
