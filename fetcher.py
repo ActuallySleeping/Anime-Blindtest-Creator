@@ -22,6 +22,12 @@ def download(song, type, key):
         print("Skipping: " + song)
         return
     
+    for folder in os.listdir(type):
+        if song in os.listdir(type + "/" + folder):
+            print("Moving: " + song)
+            os.rename(type + "/" + folder + "/" + song, type + "/" + key + "/" + song)
+            return
+    
     print("Downloading: " + song)
     r = requests.get(VIDEO_URL + "/" + song, stream=True)
     length = r.headers.get('content-length')
@@ -39,71 +45,67 @@ def download(song, type, key):
                 sys.stdout.write("\r[%s%s]" % ('=' * done, ' ' * (50-done)) )
                 sys.stdout.flush()
         print()
-                
-if __name__ == "__main__":
 
-    with open("src/animes.json", "r") as f:
-        anime = json.load(f)
+with open("src/config.json", "r") as f:
+    anime = json.load(f)['animes']
+    
+    # Checking if they are songs that appear multiple times
+    for type in anime.keys():
+        checkDoubles(type, anime)
+    
+    # Downloading the songs
+    for type in anime.keys():
+        if not os.path.exists(type):
+            os.makedirs(type)
         
-        # Checking if they are songs that appear multiple times
-        for type in anime.keys():
-            checkDoubles(type, anime)
-        
-        # Downloading the songs
-        for type in anime.keys():
-            if not os.path.exists(type):
-                os.makedirs(type)
+        for key in anime[type].keys():
+            if not os.path.exists(type + "/" + key):
+                os.makedirs(type + "/" + key)
             
-            for key in anime[type].keys():
-                if not os.path.exists(type + "/" + key):
-                    os.makedirs(type + "/" + key)
+            for song in anime[type][key]:
+                download(song, type, key)
                 
-                for song in anime[type][key]:
-                    download(song, type, key)
-                    
-        # creating the json file with the file name, the opening/ending number, the author and the song title with the animethemes.moe API
-        API = "https://api.animethemes.moe/"
-        saved = {}
+    # creating the json file with the file name, the opening/ending number, the author and the song title with the animethemes.moe API
+    API = "https://api.animethemes.moe/"
+    saved = {}
+    
+    for type in anime.keys():
+        for key in anime[type].keys():
+            for song in anime[type][key]:
+                r = requests.get(API + 'video/' + song + '?include=animethemeentries.animetheme.anime')
+                
+                if r.status_code != 200:
+                    print("Error while fetching: " + song)
+                    continue
+                
+                data = r.json()['video']
         
-        for type in anime.keys():
-            for key in anime[type].keys():
-                for song in anime[type][key]:
-                    r = requests.get(API + 'video/' + song + '?include=animethemeentries.animetheme.anime')
+                print("Fetching: " + song)
+        
+                saved[song] = {
+                    "animes" : [d['animetheme']['anime']['name'] for d in data['animethemeentries']],
+                    "numbers" : [d['animetheme']['slug'] for d in data['animethemeentries']],
+                }
+                
+                for data['animethemeentries'] in data['animethemeentries']:
+                    
+                    r = requests.get(API + 'animetheme/' + str(data['animethemeentries']['animetheme']['id']) + '?include=song.artists')
                     
                     if r.status_code != 200:
-                        print("Error while fetching: " + song)
+                        print("Error while fetching artists + song name for " + song)
                         continue
                     
-                    data = r.json()['video']
-            
-                    print("Fetching: " + song)
-                    
-                    print(data.keys())
-            
-                    saved[song] = {
-                        "animes" : [d['animetheme']['anime']['name'] for d in data['animethemeentries']],
-                        "numbers" : [d['animetheme']['slug'] for d in data['animethemeentries']],
-                    }
-                    
-                    for data['animethemeentries'] in data['animethemeentries']:
-                        
-                        r = requests.get(API + 'animetheme/' + str(data['animethemeentries']['animetheme']['id']) + '?include=song.artists')
-                        
-                        if r.status_code != 200:
-                            print("Error while fetching artists + song name for " + song)
-                            continue
-                        
-                        data2 = r.json()['animetheme']
+                    data2 = r.json()['animetheme']
 
-                        for artist in data2['song']['artists']:
-                            if artist['name'] not in saved[song].get('artists', []):
-                                saved[song]['artists'] = saved[song].get('artists', []) + [artist['name']]
-                                
-                        if data2['song']['title'] not in saved[song].get('songs', []):
-                            saved[song]['songs'] = saved[song].get('songs', []) + [data2['song']['title']]
-                        
-        if not os.path.exists("OUT"):
-            os.makedirs("OUT")
-                        
-        with open("OUT/songs.json", "w") as f:
-            json.dump(saved, f, indent=4)
+                    for artist in data2['song']['artists']:
+                        if artist['name'] not in saved[song].get('artists', []):
+                            saved[song]['artists'] = saved[song].get('artists', []) + [artist['name']]
+                            
+                    if data2['song']['title'] not in saved[song].get('songs', []):
+                        saved[song]['songs'] = saved[song].get('songs', []) + [data2['song']['title']]
+                    
+    if not os.path.exists("OUT"):
+        os.makedirs("OUT")
+                    
+    with open("OUT/songs.json", "w") as f:
+        json.dump(saved, f, indent=4)

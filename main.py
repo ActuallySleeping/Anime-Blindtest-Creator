@@ -1,5 +1,5 @@
 import moviepy.editor as mp
-import os, re, pyloudnorm as pln, soundfile as sf, json
+import os, re, pyloudnorm as pln, soundfile as sf, json, sys
 
 OUTPUT = 'Videos'
 
@@ -57,7 +57,14 @@ def createVideo(folder, dif, file, data):
 
 
 if __name__ == '__main__':
+    import fetcher
+    
+    print('\nDone fetching, starting to create videos')
+        
     folder = 'Openings'
+    if len(sys.argv) > 1 and sys.argv[1] == 'ending':
+        folder = 'Endings'
+    
     from multiprocessing import Pool
     
     difficulties = os.listdir(folder)
@@ -80,8 +87,20 @@ if __name__ == '__main__':
         p.close()
         p.join()
         
+    print('\nDone creating videos, starting to concatenate them')
+        
     files = os.listdir(OUTPUT)
-    files.sort(key=lambda f: int(re.sub('\D', '', f)))
+    # sort the files by the order of the categories befined in src/config.json
+    configs = json.load(open('src/config.json'))
+    order = configs['order']
+    categories = configs['animes']['Openings' if folder == 'Openings' else 'Endings']
+    
+    reverse = {}
+    for cat in categories.keys():
+        for song in categories[cat]:
+            reverse[song] = cat
+    
+    files = sorted(files, key=lambda file: order.index(reverse[file]))
     
     clips = [mp.VideoFileClip(OUTPUT + '/' + file) for file in files]
     

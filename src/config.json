@@ -1,0 +1,39 @@
+{
+    "order" : [ "Facile", "Moyen" , "Difficile", "Impossible", "Obscure", "La Spéciale"],
+    "animes" : {
+        "Openings" : {
+            "Facile" : [
+                "PandoraHearts-OP1.webm",
+                "Tonikawa-OP1.webm"
+            ],
+            "Moyen" : [
+                "ShingekiNoKyojin-OP1.webm",
+                "ShingekiNoKyojin-OP2.webm",
+                "ShingekiNoKyojinS2-OP1-NCBD1080.webm",
+                "ShingekiNoKyojinS3-OP1-NCBD1080.webm"
+            ],
+            "Difficile" : [
+            ],
+            "Impossible" : [
+            ],
+            "Obscure" : [
+            ],
+            "La Spéciale" : [
+            ]
+        },
+        "Endings" : {
+            "Facile" : [
+            ],
+            "Moyen" : [
+            ],
+            "Difficile" : [
+            ],
+            "Impossible" : [
+            ],
+            "Obscure" : [
+            ],
+            "La Spéciale" : [
+            ]
+        }
+    }
+}
