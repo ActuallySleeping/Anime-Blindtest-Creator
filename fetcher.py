@@ -1,5 +1,6 @@
 import requests, json, sys, os, json
 
+DOWNLOAD = 'Generated/Downloads'
 VIDEO_URL = "https://v.animethemes.moe"
 
 def FileName(file):
@@ -22,22 +23,16 @@ def checkDoubles(type, anime):
         print("Multiple songs with the same name, please fix the json file")
         exit(1)  
 
-def download(song, type, key):
-    if os.path.exists(type + "/" + key + "/" + song):
+def download(song):
+    if os.path.exists(DOWNLOAD + "/" + song):
         print("Skipping: " + song)
         return
-    
-    for folder in os.listdir(type):
-        if song in os.listdir(type + "/" + folder):
-            print("Moving: " + song)
-            os.rename(type + "/" + folder + "/" + song, type + "/" + key + "/" + song)
-            return
     
     print("Downloading: " + song)
     r = requests.get(VIDEO_URL + "/" + song, stream=True)
     length = r.headers.get('content-length')
     if length is None:
-        with open(type + "/" + key + "/" + song, "wb") as f:
+        with open(DOWNLOAD + "/" + song, "wb") as f:
             f.write(r.content)
     else:
         dl = 0
@@ -51,7 +46,7 @@ def download(song, type, key):
             sys.stdout.write("\r[%s%s] %s/%sMB" % ('=' * done, ' ' * (50-done), round(dl/(1024*1024), 2), round(length/(1024*1024), 2)))
             sys.stdout.flush()
                 
-        with open(type + "/" + key + "/" + song, "wb") as f:
+        with open(DOWNLOAD + "/" + song, "wb") as f:
             f.write(total)
         print()
 
@@ -59,25 +54,22 @@ def download(song, type, key):
 with open("src/config.json", "r") as f:
     anime = json.load(f)['animes']
     
-    # Checking if they are songs that appear multiple times
     for type in anime.keys():
         checkDoubles(type, anime)
     
-    # Downloading the songs
+    if not os.path.exists(DOWNLOAD):
+        os.makedirs(DOWNLOAD)
+    
     for type in anime.keys():
-        if not os.path.exists(type):
-            os.makedirs(type)
-        
         for key in anime[type].keys():
-            if not os.path.exists(type + "/" + key):
-                os.makedirs(type + "/" + key)
-            
             for song in anime[type][key]:
-                download(song, type, key)
+                download(song)
                 
-    # creating the json file with the file name, the opening/ending number, the author and the song title with the animethemes.moe API
     API = "https://api.animethemes.moe/"
-    saved = json.load(open("OUT/songs.json", "r"))
+    if not os.path.exists("Generated/songs.json"):
+        with open("Generated/songs.json", "w") as f:
+            json.dump({}, f)
+    saved = json.load(open("Generated/songs.json", "r"))
     
     for type in anime.keys():
         for key in anime[type].keys():
@@ -117,8 +109,5 @@ with open("src/config.json", "r") as f:
                     if data2['song']['title'] not in saved[song].get('songs', []):
                         saved[song]['songs'] = saved[song].get('songs', []) + [data2['song']['title']]
                     
-    if not os.path.exists("OUT"):
-        os.makedirs("OUT")
-                    
-    with open("OUT/songs.json", "w") as f:
-        json.dump(saved, f, indent=4)
+    with open("Generated/songs.json", "w") as f:
+        json.dump(saved, f)

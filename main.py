@@ -1,17 +1,19 @@
-import moviepy.editor as mp, os, pyloudnorm as pln, soundfile as sf, json, sys, random
+import moviepy.editor as mp, os, pyloudnorm as pln, soundfile as sf, json, sys, random, signal
 
-VIDEO_OUTPUT = 'Videos'
-AUDIO_OUTPUT = 'Audios'
+OUT = 'Generated'
+VIDEO_OUTPUT = OUT + '/Videos'
+AUDIO_OUTPUT = OUT + '/Audios'
+DOWNLOADS = OUT + '/Downloads'
 
 def FileName(file):
     return os.path.splitext(file)[0]
 
 
-def CreateAudio(folder, dif, file):
+def CreateAudio(file):
     if os.path.exists(AUDIO_OUTPUT + '/' + FileName(file) + '.mp3'):
         return
     
-    audio = mp.AudioFileClip(folder + '/' + dif + '/' + file).subclip(0, 30) \
+    audio = mp.AudioFileClip(DOWNLOADS + '/' + file).subclip(0, 30) \
         .audio_fadeout(2)
     audio.write_audiofile(AUDIO_OUTPUT + '/' + FileName(file) + '.mp3', verbose=False, logger=None)
     audio.close()
@@ -23,17 +25,17 @@ def CreateAudio(folder, dif, file):
     sf.write(AUDIO_OUTPUT + '/' + FileName(file) + '.mp3', loundness_norm, rate)
     
     
-def createVideo(folder, dif, file, data):
+def createVideo(dif, file, data):
     if os.path.exists(VIDEO_OUTPUT + '/' + FileName(file) + '.mp4'):
         return
     
-    CreateAudio(folder, dif, file)
+    CreateAudio(file)
     
     print('Creating video for ' + file)
     
     anime, num, author, song = ' / '.join(data.get('animes', [])), ' / '.join(data.get('numbers', [])), ' / '.join(data.get('artists', [])), ' / '.join(data.get('songs', []))
     
-    clip = mp.VideoFileClip(folder + '/' + dif + '/' + file, target_resolution=(720, 1280)).subclip(20, 30)
+    clip = mp.VideoFileClip(DOWNLOADS + '/' + file, target_resolution=(720, 1280)).subclip(20, 30)
     timer = mp.VideoFileClip('src/timer.mp4').subclip(10, 30)
     
     txt_clip = mp.TextClip(dif, fontsize=40, font='Impact', color='white', align='west') \
@@ -50,68 +52,78 @@ def createVideo(folder, dif, file, data):
     audio = mp.AudioFileClip(AUDIO_OUTPUT + '/' + FileName(file) + '.mp3')
     clip.set_audio(audio) \
         .write_videofile(VIDEO_OUTPUT + '/' + FileName(file) + '.mp4', fps=24, preset='medium', verbose=False, logger=None, threads=1)
+    
     clip.close()
     audio.close()
     timer.close()
         
     print('Done creating video for ' + file)
 
+def init_worker():
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+
 
 if __name__ == '__main__':
+    FOLDERS = [OUT, VIDEO_OUTPUT, AUDIO_OUTPUT, DOWNLOADS]
+    for folder in FOLDERS:
+        if not os.path.exists(folder):
+            os.mkdir(folder)
+    
     import fetcher
     
     print('\nDone fetching, starting to create videos')
-        
-    folder = 'Openings'
-    if len(sys.argv) > 1 and sys.argv[1] == 'ending':
-        folder = 'Endings'
     
-    from multiprocessing import Pool, cpu_count
-    
-    difficulties = os.listdir(folder)
-    songs = []
-    data = json.load(open('OUT/songs.json'))
-    
-    for d in difficulties :
-        
-        if not os.path.isdir(folder + '/' + d) :
-            continue
-
-        files = os.listdir(folder + '/' + d)
-        songs += [(folder, d, f, data[f]) for f in files]
-     
-    if not os.path.exists(VIDEO_OUTPUT):
-        os.mkdir(VIDEO_OUTPUT)
-    if not os.path.exists(AUDIO_OUTPUT):
-        os.mkdir(AUDIO_OUTPUT)
-    
-    with Pool(max(cpu_count() - 2, 1)) as p:
-        p.starmap(createVideo, [song for song in songs])
-        p.close()
-        p.join()
-        
-    print('\nDone creating videos, starting to concatenate them')
-       
     configs = json.load(open('src/config.json')) 
     order = configs.get('order', [])
-    categories = configs['animes']['Openings' if folder == 'Openings' else 'Endings']
     
-    files = []
-    for cat in categories.keys():
-        files += categories[cat]
-    files = [FileName(file) for file in files]
+    categories = configs.get('animes', {})
+    category = next(iter(categories))
     
+    if len(sys.argv) > 1 and sys.argv[1].lower() in map(lambda x: x.lower(), categories.keys()):
+        category = next(iter(filter(lambda x: x.lower() == sys.argv[1].lower(), categories.keys())))
+    
+    data = json.load(open('Generated/songs.json'))
+    files, songs = [], []
+    for dif in categories[category].keys():
+        files += map(lambda x: FileName(x), categories[category][dif])
+        songs += map(lambda x: (dif, x, data[x]), categories[category][dif])
+    
+    from multiprocessing import Pool, cpu_count
+    pool = Pool(processes=max(cpu_count() - 2, 1), initializer=init_worker)
+    try:
+        for song in songs:
+            pool.apply_async(createVideo, args=song)
+        
+        pool.close()
+        pool.join()
+    except KeyboardInterrupt:
+        pool.terminate()
+        pool.join()
+        
+        todelete = filter(lambda x: os.path.splitext(x)[1] == '.mp3' ,os.listdir('./'))
+        for file in todelete:
+            file = os.path.splitext(file)[0].split('TEMP_MPY')[0]
+            if os.path.exists(VIDEO_OUTPUT + '/' + file + '.mp4'):
+                os.remove(VIDEO_OUTPUT + '/' + file + '.mp4')
+            
+            if os.path.exists(AUDIO_OUTPUT + '/' + file + '.mp3'):
+                os.remove(AUDIO_OUTPUT + '/' + file + '.mp3')
+                
+            if os.path.exists(file + 'TEMP_MPY_wvf_snd.mp3'):
+                os.remove(file + 'TEMP_MPY_wvf_snd.mp3')
+        exit(0) 
+        
+    print('\nDone creating videos, starting to concatenate them')
     random.shuffle(files)
 
     reverse = {}
-    for cat in categories.keys():
-        for song in categories[cat]:
-            reverse[FileName(song)] = cat
+    for dif in categories[category]:
+        for song in categories[category][dif]:
+            reverse[FileName(song)] = dif
     
     files = sorted(files, key=lambda file: order.index(reverse[file]))
     
     clips = [mp.VideoFileClip(VIDEO_OUTPUT + '/' + file + '.mp4') for file in files]
     
     mp.concatenate_videoclips(clips) \
-        .write_videofile('OUT/final.mp4', fps=24, preset='medium', threads=(max(cpu_count() - 2, 1)))
-        
+        .write_videofile(OUT + '/final.mp4', fps=24, preset='medium', threads=(max(cpu_count() - 2, 1)))
