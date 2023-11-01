@@ -1,10 +1,10 @@
 {
     "order" : [ "Facile", "Moyen" , "Difficile", "Impossible", "Obscure", "La Spéciale"],
     "maximums" : {
-        "Facile" : 40,
-        "Moyen" : 35,
-        "Difficile" : 25,
-        "Impossible" : 25,
+        "Facile" : 30,
+        "Moyen" : 40,
+        "Difficile" : 30,
+        "Impossible" : 30,
         "Obscure" : 20,
         "La Spéciale" : 1
     },
@@ -82,7 +82,6 @@
         "ShadowGarden-OP1.webm",
         "YakusokuNoNeverland-OP1-Lyrics.webm",
         "KillLaKill-OP2.webm",
-        "EnenNoShouboutai-OP1-NCBD1080.webm",
         "SwordArtOnline-OP1.webm",
         "SwordArtOnline-OP2.webm",
         "SwordArtOnlineAlicization-OP1-NCBD1080.webm",
@@ -129,7 +128,15 @@
         "AnsatsuKyoushitsuS2-OP2.webm",
         "KaguyaSamaWaKokurasetai-OP1-Lyrics.webm",
         "KaguyaSamaWaKokurasetaiMovie-OP1.webm",
-        "KaguyaSamaWaKokurasetaiS2-OP1-NCBD1080.webm"
+        "KaguyaSamaWaKokurasetaiS2-OP1-NCBD1080.webm",
+        "TokyoGhoul-OP1.webm",
+        "TokyoGhoulRE-OP1-NCBD1080.webm",
+        "DeathNote-OP1.webm",
+        "DeathNote-OP2.webm",
+        "ShieldHero-OP1-NCBD1080.webm",
+        "ShieldHero-OP2-NCBD1080.webm",
+        "AoNoExorcist-OP2.webm",
+        "CowboyBebop-OP1.webm"
     ],
     "Moyen" : [
         "GreatTeacherOnizuka-OP1.webm",
@@ -196,7 +203,6 @@
         "MobPsycho100S2-OP1-BD1080.webm",
         "MagiKingdomOfMagic-OP2.webm",
         "MagiLabyrinthOfMagic-OP2.webm",
-        "OwariNoSeraph-OP1.webm",
         "Takagi3-OP1-NCBD1080.webm",
         "Takagi3S2-OP1-NCBD1080.webm",
         "KillLaKill-OP1.webm",
@@ -214,7 +220,9 @@
         "YuriOnIce-OP1.webm",
         "EromangaSensei-OP1-NCBD1080.webm",
         "Arifureta-OP1-NCBD1080.webm",
-        "TaisouZamurai-OP1.webm"
+        "TaisouZamurai-OP1.webm",
+        "ShieldHeroS2-OP1.webm",
+        "ShieldHeroS3-OP1.webm"
     ],
     "Difficile" : [
         "BlackCat-OP1.webm",
@@ -255,7 +263,6 @@
         "Beelzebub-OP5.webm",
         "FumetsuNoAnataE-OP1.webm",
         "DumbbellNanKiloMoteru-OP1-NCBD1080.webm",
-        "Mobseka-OP1-NCBD1080.webm",
         "ChuukanKanrirokuTonegawa-OP1-NCBD1080.webm",
         "TensuraS2-OP1-NCBD1080.webm",
         "TensuraS2Part2-OP1-NCBD1080.webm",
@@ -295,7 +302,8 @@
         "MariaHolic-OP1.webm",
         "YoujoSenki-OP1.webm",
         "ArifuretaS2-OP1.webm",
-        "TaimadouGakuen35ShikenShoutai-OP1.webm"
+        "TaimadouGakuen35ShikenShoutai-OP1.webm",
+        "Kakegurui-OP1-NCBD1080.webm"
     ],
     "Impossible" : [
         "Amnesia-OP1.webm",
@@ -379,11 +387,13 @@
         "JikanNoShihaisha-OP1.webm",
         "Control-OP1.webm",
         "Pet-OP1-NCBD1080.webm",
-        "OverlordOVA-OP1.webm"
+        "OverlordOVA-OP1.webm",
+        "KyokouSuiri-OP1-NCBD1080.webm"
     ],
     "La Spéciale" : [
         "Kaiyari-OP1-NCBD1080.webm",
-        "IshuzokuReviewers-OP1-NCBD1080.webm"
+        "IshuzokuReviewers-OP1-NCBD1080.webm",
+        "HighSchoolDxD-OP1.webm"
     ]
   },
   "Endings" : {
