@@ -96,6 +96,7 @@ if __name__ == '__main__':
         
         pool.close()
         pool.join()
+        
     except KeyboardInterrupt:
         pool.terminate()
         pool.join()
@@ -113,13 +114,23 @@ if __name__ == '__main__':
                 os.remove(file + 'TEMP_MPY_wvf_snd.mp3')
         exit(0) 
         
-    print('\nDone creating videos, starting to concatenate them')
+    print('\nDone creating videos, starting to concatenate them')   
     random.shuffle(files)
-
+    
     reverse = {}
     for dif in categories[category]:
         for song in categories[category][dif]:
             reverse[FileName(song)] = dif
+            
+    maximums = configs.get('maximums', {}) 
+    new = []
+    for file in files:
+        cat = reverse[file]
+        
+        if cat in maximums and maximums[cat] > 0:
+            maximums[cat] -= 1
+            new.append(file)   
+    files = new
     
     files = sorted(files, key=lambda file: order.index(reverse[file]))
     

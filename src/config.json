@@ -1,12 +1,12 @@
 {
     "order" : [ "Facile", "Moyen" , "Difficile", "Impossible", "Obscure", "La Spéciale"],
     "maximums" : {
-        "Facile" : 30,
-        "Moyen" : 30,
-        "Difficile" : 30,
-        "Impossible" : 30,
-        "Obscure" : 30,
-        "La Spéciale" : 30
+        "Facile" : 40,
+        "Moyen" : 35,
+        "Difficile" : 25,
+        "Impossible" : 25,
+        "Obscure" : 20,
+        "La Spéciale" : 1
     },
     "animes" : {
         "Openings" : {
