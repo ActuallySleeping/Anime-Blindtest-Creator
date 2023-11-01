@@ -1,6 +1,9 @@
 Openings/
 Endings/
 Videos/
+Audios/
 *.mp3
 OUT/
 __pycache__/
+*.ogg
+.vscode
