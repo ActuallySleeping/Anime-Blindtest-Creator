@@ -13,12 +13,12 @@ def checkDoubles(type, anime):
     for key in anime[type].keys():
         for song in anime[type][key]:
             song = FileName(song)
-            song = song.split('-')[0] + song.split('-')[1]
+            song = song.split('-')[0] + '-' + song.split('-')[1].split('v')[0]
             if song in songs:
                 print("Song: " + song + " appears multiple times")
                 multiples = True
             else:
-                songs.append(song.split('-')[0])
+                songs.append(song)
     if multiples:
         print("Multiple songs with the same name, please fix the json file")
         exit(1)  
