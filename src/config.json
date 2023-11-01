@@ -120,7 +120,16 @@
         "BlackClover-OP10.webm",
         "BlackClover-OP11.webm",
         "BlackClover-OP12.webm",
-        "BlackClover-OP13.webm"
+        "BlackClover-OP13.webm",
+        "DarlingInTheFranXX-OP1-NCBD1080.webm",
+        "DarlingInTheFranXX-OP2-NCBD1080.webm",
+        "AnsatsuKyoushitsu-OP1.webm",
+        "AnsatsuKyoushitsu-OP2.webm",
+        "AnsatsuKyoushitsuS2-OP1.webm",
+        "AnsatsuKyoushitsuS2-OP2.webm",
+        "KaguyaSamaWaKokurasetai-OP1-Lyrics.webm",
+        "KaguyaSamaWaKokurasetaiMovie-OP1.webm",
+        "KaguyaSamaWaKokurasetaiS2-OP1-NCBD1080.webm"
     ],
     "Moyen" : [
         "GreatTeacherOnizuka-OP1.webm",
@@ -196,7 +205,16 @@
         "EnenNoShouboutai-OP2-NCBD1080.webm",
         "KimetsuNoYaibaYuukakuHen-OP1.webm",
         "BakiS2-OP1.webm",
-        "Inuyashiki-OP1-NCBD1080.webm"
+        "Inuyashiki-OP1-NCBD1080.webm",
+        "GinNoGuardian-OP1-NCBD1080.webm",
+        "Beastars-OP1-NCBD1080.webm",
+        "BeastarsS2-OP1.webm",
+        "MaouJouDeOyasumi-OP1-NCBD1080.webm",
+        "Kiseijuu-OP1.webm",
+        "YuriOnIce-OP1.webm",
+        "EromangaSensei-OP1-NCBD1080.webm",
+        "Arifureta-OP1-NCBD1080.webm",
+        "TaisouZamurai-OP1.webm"
     ],
     "Difficile" : [
         "BlackCat-OP1.webm",
@@ -271,7 +289,13 @@
         "VinlandSagaS2-OP2.webm",
         "GrapplerBaki-OP1.webm",
         "Kaiji-OP1.webm",
-        "GrisaiaNoRakuen-OP1.webm"
+        "GrisaiaNoRakuen-OP1.webm",
+        "UQHolder-OP1-NCBD1080.webm",
+        "OutbreakCompany-OP1.webm",
+        "MariaHolic-OP1.webm",
+        "YoujoSenki-OP1.webm",
+        "ArifuretaS2-OP1.webm",
+        "TaimadouGakuen35ShikenShoutai-OP1.webm"
     ],
     "Impossible" : [
         "Amnesia-OP1.webm",
@@ -321,7 +345,13 @@
         "KaijiS2-OP1.webm",
         "Plunderer-OP1-NCBD1080.webm",
         "Plunderer-OP2-NCBD1080.webm",
-        "DeadmanWonderland-OP1.webm"
+        "DeadmanWonderland-OP1.webm",
+        "GreatPretender-OP1-NCBD1080.webm",
+        "Gangsta-OP1.webm",
+        "NakanohitoGenome-OP1-NCBD1080.webm",
+        "Bem-OP1.webm",
+        "HataageKemonoMichi-OP1.webm",
+        "BrandNewAnimal-OP1.webm"
     ],
     "Obscure" : [
         "Given-OP1-NCBD1080.webm",
@@ -329,7 +359,6 @@
         "Fabiniku-OP1-NCBD1080.webm",
         "Haikyuu-OP1.webm",
         "Hyouka-OP1.webm",
-        "YoujoSenki-OP1.webm",
         "Eizouken-OP1-NCBD1080.webm",
         "OreDakeHaireruKakushiDungeon-OP1-NCBD1080.webm",
         "TensaiOuji-OP1-NCBD1080.webm",
@@ -337,10 +366,24 @@
         "KumoDesuGaNaniKa-OP2-NCBD1080.webm",
         "KnightsAndMagic-OP1-NCBD1080.webm",
         "SousouNoFrieren-OP1.webm",
-        "TanakaKunWaItsumoKedaruge-OP1.webm"
+        "TanakaKunWaItsumoKedaruge-OP1.webm",
+        "UchuuKyoudai-OP1.webm",
+        "UchuuKyoudai-OP2.webm",
+        "UchuuKyoudai-OP3.webm",
+        "UchuuKyoudai-OP4.webm",
+        "UchuuKyoudai-OP5.webm",
+        "UchuuKyoudai-OP6.webm",
+        "UchuuKyoudai-OP7.webm",
+        "UchuuKyoudai-OP8.webm",
+        "IDInvaded-OP1-NCBD1080.webm",
+        "JikanNoShihaisha-OP1.webm",
+        "Control-OP1.webm",
+        "Pet-OP1-NCBD1080.webm",
+        "OverlordOVA-OP1.webm"
     ],
     "La Spéciale" : [
-        "Kaiyari-OP1-NCBD1080.webm"
+        "Kaiyari-OP1-NCBD1080.webm",
+        "IshuzokuReviewers-OP1-NCBD1080.webm"
     ]
   },
   "Endings" : {
