@@ -33,7 +33,7 @@ def createVideo(dif, file, data):
     
     print('Creating video for ' + file)
     
-    anime, num, author, song = ' / '.join(data.get('animes', [])), ' / '.join(data.get('numbers', [])), ' / '.join(data.get('artists', [])), ' / '.join(data.get('songs', []))
+    anime, num, author, song = data.get('anime', ''), ' / '.join(data.get('numbers', [])), ' / '.join(data.get('artists', [])), ' / '.join(data.get('songs', []))
     
     clip = mp.VideoFileClip(DOWNLOADS + '/' + file, target_resolution=(720, 1280)).subclip(20, 30)
     timer = mp.VideoFileClip('src/timer.mp4').subclip(10, 30)

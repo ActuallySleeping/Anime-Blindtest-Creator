@@ -1,21 +1,34 @@
 {
-    "order" : [ "Facile", "Moyen" , "Difficile", "Impossible", "Obscure", "La Spéciale"],
-    "maximums" : {
-        "Facile" : 30,
-        "Moyen" : 40,
-        "Difficile" : 30,
-        "Impossible" : 30,
-        "Obscure" : 20,
-        "La Spéciale" : 1
-    },
+"order" : [ "Facile", "Moyen" , "Difficile", "Impossible", "Obscure", "La Spéciale"],
+"maximums" : {
+    "Facile" : 45,
+    "Moyen" : 40,
+    "Difficile" : 30,
+    "Impossible" : 30,
+    "Obscure" : 20,
+    "La Spéciale" : 5
+},
 "animes" : {
-  "Openings" : {
-    "Says the name within 20s": [
-        "Danganronpa-OP1.webm",
-        "Danganronpa-OP2.webm",
-        "OnePunchManS2-OP1.webm",
-        "OnePunchMan-OP1.webm"
+  "testing" : {
+    "Facile": [
+        "PandoraHearts-OP1.webm"
     ],
+    "Moyen": [
+        "GreatTeacherOnizuka-OP1.webm"
+    ],
+    "Difficile": [
+        "BlackCat-OP1.webm"
+    ],
+    "Impossible": [
+        "Amnesia-OP1.webm"
+    ],
+    "Obscure": [
+        "Given-OP1-NCBD1080.webm"
+    ],
+    "La Spéciale": [
+    ]
+  },
+  "Openings" : {
     "Facile" : [
         "PandoraHearts-OP1.webm",
         "Tonikawa-OP1.webm",
@@ -136,7 +149,11 @@
         "ShieldHero-OP1-NCBD1080.webm",
         "ShieldHero-OP2-NCBD1080.webm",
         "AoNoExorcist-OP2.webm",
-        "CowboyBebop-OP1.webm"
+        "CowboyBebop-OP1.webm",
+        "Danganronpa-OP1.webm",
+        "Danganronpa-OP2.webm",
+        "OnePunchManS2-OP1.webm",
+        "OnePunchMan-OP1.webm"
     ],
     "Moyen" : [
         "GreatTeacherOnizuka-OP1.webm",
@@ -303,7 +320,9 @@
         "YoujoSenki-OP1.webm",
         "ArifuretaS2-OP1.webm",
         "TaimadouGakuen35ShikenShoutai-OP1.webm",
-        "Kakegurui-OP1-NCBD1080.webm"
+        "Kakegurui-OP1-NCBD1080.webm",
+        "IsekaiMaou-OP1-NCBD1080.webm",
+        "IsekaiMaouS2-OP1.webm"
     ],
     "Impossible" : [
         "Amnesia-OP1.webm",
@@ -359,7 +378,8 @@
         "NakanohitoGenome-OP1-NCBD1080.webm",
         "Bem-OP1.webm",
         "HataageKemonoMichi-OP1.webm",
-        "BrandNewAnimal-OP1.webm"
+        "BrandNewAnimal-OP1.webm",
+        "FullDive-OP1-NCBD1080.webm"
     ],
     "Obscure" : [
         "Given-OP1-NCBD1080.webm",
