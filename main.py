@@ -5,6 +5,9 @@ VIDEO_OUTPUT = OUT + '/Videos'
 AUDIO_OUTPUT = OUT + '/Audios'
 DOWNLOADS = OUT + '/Downloads'
 
+def getAnime(song):
+    return FileName(song).split('-')[0]
+
 def FileName(file):
     return os.path.splitext(file)[0]
 
@@ -117,6 +120,9 @@ if __name__ == '__main__':
     print('\nDone creating videos, starting to concatenate them')   
     random.shuffle(files)
     
+    doubles = json.load(open('Generated/doubles.json'))
+    doubled = []
+    
     reverse = {}
     for dif in categories[category]:
         for song in categories[category][dif]:
@@ -125,6 +131,19 @@ if __name__ == '__main__':
     maximums = configs.get('maximums', {}) 
     new = []
     for file in files:
+        if getAnime(file) in doubles:
+            double = False
+            for song in doubles[getAnime(file)]:
+                if song in files:
+                    double = True
+                    break
+            if double:
+                continue
+        if getAnime(file) in doubled:
+            continue
+        else:
+            doubled.append(getAnime(file))
+        
         cat = reverse[file]
         
         if cat in maximums and maximums[cat] > 0:

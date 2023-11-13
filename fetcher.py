@@ -6,14 +6,19 @@ VIDEO_URL = "https://v.animethemes.moe"
 def FileName(file):
     return os.path.splitext(file)[0]
 
+def getAnime(song):
+    return FileName(song).split('-')[0]
+
+def getTitle(song):
+    return FileName(song).split('-')[0] + '-' + FileName(song).split('-')[1].split('v')[0]
+
 def checkDoubles(type, anime):
     songs = []
     multiples = False
     
     for key in anime[type].keys():
         for song in anime[type][key]:
-            song = FileName(song)
-            song = song.split('-')[0] + '-' + song.split('-')[1].split('v')[0]
+            song = getTitle(song)
             if song in songs:
                 print("Song: " + song + " appears multiple times")
                 multiples = True
@@ -127,3 +132,32 @@ for song in songs:
                     
 with open("Generated/songs.json", "w") as f:
     json.dump(saved, f)
+    
+if not os.path.exists("Generated/doubles.json"):
+    json.dump({}, open("Generated/doubles.json", "w"))
+    
+doubles = json.load(open("Generated/doubles.json", "r"))
+
+songs = [song for type in anime.keys() for key in anime[type].keys() for song in anime[type][key]]
+
+for song in songs:
+    song = getAnime(song)
+    doubles[song] = []
+    for s in songs:
+        s = getAnime(s)
+        # check that the first 5 characters are the same
+        if song != s and (song in s or s in song) and len(song) > 3 and len(s) > 3 and song[:3] == s[:3]:
+            doubles[song].append(s)
+            
+for song in doubles.keys(): # for each song
+    if len(doubles[song]) > 0:
+        for double in doubles[song]: # look at the doubles available
+            # make sure each of those doubles has the same doubles
+            # if not, add the missing doubles
+            for double2 in doubles[double]:
+                if double2 not in doubles[song]:
+                    doubles[song].append(double2)
+            
+                
+with open("Generated/doubles.json", "w") as f:
+    json.dump(doubles, f)

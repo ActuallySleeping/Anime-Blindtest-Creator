@@ -11,7 +11,19 @@
 "animes" : {
   "testing" : {
     "Facile": [
-        "PandoraHearts-OP1.webm"
+        "PandoraHearts-OP1.webm",
+        "BlackClover-OP1-NCBD1080.webm",
+        "BlackClover-OP2-NCBD1080.webm",
+        "BlackClover-OP3-NCBD1080.webm",
+        "BlackClover-OP4-NCBD1080.webm",
+        "BlackClover-OP5-NCBD1080.webm",
+        "BlackClover-OP6-NCBD1080.webm",
+        "BlackClover-OP7-NCBD1080.webm",
+        "BlackClover-OP9.webm",
+        "BlackClover-OP10.webm",
+        "BlackClover-OP11.webm",
+        "BlackClover-OP12.webm",
+        "BlackClover-OP13.webm"
     ],
     "Moyen": [
         "GreatTeacherOnizuka-OP1.webm"
