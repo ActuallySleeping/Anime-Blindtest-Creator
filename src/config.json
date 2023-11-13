@@ -8,34 +8,23 @@
     "Obscure" : 20,
     "La Spéciale" : 5
 },
+"starting time": {
+    "Danganronpa-OP1.webm" : 2,
+    "Danganronpa-OP2.webm" : 6
+},
 "animes" : {
   "testing" : {
     "Facile": [
-        "PandoraHearts-OP1.webm",
-        "BlackClover-OP1-NCBD1080.webm",
-        "BlackClover-OP2-NCBD1080.webm",
-        "BlackClover-OP3-NCBD1080.webm",
-        "BlackClover-OP4-NCBD1080.webm",
-        "BlackClover-OP5-NCBD1080.webm",
-        "BlackClover-OP6-NCBD1080.webm",
-        "BlackClover-OP7-NCBD1080.webm",
-        "BlackClover-OP9.webm",
-        "BlackClover-OP10.webm",
-        "BlackClover-OP11.webm",
-        "BlackClover-OP12.webm",
-        "BlackClover-OP13.webm"
+        "Danganronpa-OP1.webm",
+        "Danganronpa-OP2.webm"
     ],
     "Moyen": [
-        "GreatTeacherOnizuka-OP1.webm"
     ],
     "Difficile": [
-        "BlackCat-OP1.webm"
     ],
     "Impossible": [
-        "Amnesia-OP1.webm"
     ],
     "Obscure": [
-        "Given-OP1-NCBD1080.webm"
     ],
     "La Spéciale": [
     ]

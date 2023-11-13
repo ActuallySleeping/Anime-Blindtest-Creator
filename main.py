@@ -12,11 +12,11 @@ def FileName(file):
     return os.path.splitext(file)[0]
 
 
-def CreateAudio(file):
+def CreateAudio(file, starting_time=0):
     if os.path.exists(AUDIO_OUTPUT + '/' + FileName(file) + '.mp3'):
         return
     
-    audio = mp.AudioFileClip(DOWNLOADS + '/' + file).subclip(0, 30) \
+    audio = mp.AudioFileClip(DOWNLOADS + '/' + file).subclip(starting_time + 0, starting_time + 30) \
         .audio_fadeout(2)
     audio.write_audiofile(AUDIO_OUTPUT + '/' + FileName(file) + '.mp3', verbose=False, logger=None)
     audio.close()
@@ -28,17 +28,17 @@ def CreateAudio(file):
     sf.write(AUDIO_OUTPUT + '/' + FileName(file) + '.mp3', loundness_norm, rate)
     
     
-def createVideo(dif, file, data):
+def createVideo(dif, file, data, starting_time=0):
     if os.path.exists(VIDEO_OUTPUT + '/' + FileName(file) + '.mp4'):
         return
     
-    CreateAudio(file)
+    CreateAudio(file, starting_time)
     
     print('Creating video for ' + file)
     
     anime, num, author, song = data.get('anime', ''), ' / '.join(data.get('numbers', [])), ' / '.join(data.get('artists', [])), ' / '.join(data.get('songs', []))
     
-    clip = mp.VideoFileClip(DOWNLOADS + '/' + file, target_resolution=(720, 1280)).subclip(20, 30)
+    clip = mp.VideoFileClip(DOWNLOADS + '/' + file, target_resolution=(720, 1280)).subclip(starting_time + 20, starting_time + 30)
     timer = mp.VideoFileClip('src/timer.mp4').subclip(10, 30)
     
     txt_clip = mp.TextClip(dif, fontsize=40, font='Impact', color='white', align='west') \
@@ -89,7 +89,7 @@ if __name__ == '__main__':
     files, songs = [], []
     for dif in categories[category].keys():
         files += map(lambda x: FileName(x), categories[category][dif])
-        songs += map(lambda x: (dif, x, data[x]), categories[category][dif])
+        songs += map(lambda x: (dif, x, data[x], configs.get('starting time', {}).get(x, 0)), categories[category][dif])
     
     from multiprocessing import Pool, cpu_count
     pool = Pool(processes=max(round(cpu_count() / 2) - 2, 1), initializer=init_worker)
@@ -155,5 +155,5 @@ if __name__ == '__main__':
     
     clips = [mp.VideoFileClip(VIDEO_OUTPUT + '/' + file + '.mp4') for file in files]
     
-    mp.concatenate_videoclips(clips) \
+    mp.concatenate_videoclips(clips, method='chain') \
         .write_videofile(OUT + '/final.mp4', fps=24, preset='medium', threads=(max(cpu_count() - 2, 1)))

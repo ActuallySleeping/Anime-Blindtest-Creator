@@ -70,7 +70,7 @@ for type in anime.keys():
             
 API = "https://api.animethemes.moe/"
 if not os.path.exists("Generated/songs.json"):
-    json.dump({}, open("Generated/songs.json", "w"))
+    json.dump({}, open("Generated/songs.json", "w"), indent=4)
         
 saved = json.load(open("Generated/songs.json", "r"))
 
@@ -133,7 +133,7 @@ for song in songs:
         print("Anime name is too long for " + name)
                     
 with open("Generated/songs.json", "w") as f:
-    json.dump(saved, f)
+    json.dump(saved, f, indent=4)
     
 if not os.path.exists("Generated/doubles.json"):
     json.dump({}, open("Generated/doubles.json", "w"))
@@ -147,15 +147,12 @@ for song in songs:
     doubles[song] = []
     for s in songs:
         s = getAnime(s)
-        # check that the first 5 characters are the same
         if song != s and (song in s or s in song) and len(song) > 3 and len(s) > 3 and song[:3] == s[:3]:
             doubles[song].append(s)
             
-for song in doubles.keys(): # for each song
+for song in doubles.keys():
     if len(doubles[song]) > 0:
-        for double in doubles[song]: # look at the doubles available
-            # make sure each of those doubles has the same doubles
-            # if not, add the missing doubles
+        for double in doubles[song]:
             for double2 in doubles[double]:
                 if double2 not in doubles[song]:
                     doubles[song].append(double2)
