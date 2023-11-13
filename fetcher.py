@@ -1,4 +1,4 @@
-import requests, json, sys, os, json
+import requests, json, sys, os, json, re
 
 DOWNLOAD = 'Generated/Downloads'
 VIDEO_URL = "https://v.animethemes.moe"
@@ -91,7 +91,7 @@ for song in songs:
         "numbers" : [d['animetheme']['slug'] for d in data['animethemeentries']],
     }
     
-    name = None
+    name = data['animethemeentries'][0]['animetheme']['anime']['name']
     
     for data['animethemeentries'] in data['animethemeentries']:
         
@@ -101,7 +101,7 @@ for song in songs:
             print("Error while fetching artists + song name for " + song)
             continue
         
-        data2 = r.json()['animetheme']
+        data2 = r.json()['animethemre']
 
         for artist in data2['song']['artists']:
             if artist['name'] not in saved[song].get('artists', []):
@@ -118,6 +118,8 @@ for song in songs:
         
         synomyms = r.json()['anime']['animesynonyms']
         synomyms.append({'text' : data['animethemeentries']['animetheme']['anime']['name']})
+        synomyms = filter(lambda x: re.search(r'[^A-Za-z0-9\s]',x['text']) is None, synomyms)
+        synomyms = filter(lambda x: len(x['text']) > 8, synomyms)
         
         for synomym in synomyms:
             if name is None or len(name) > len(synomym['text']):

@@ -54,7 +54,7 @@ def createVideo(dif, file, data):
     clip = mp.concatenate_videoclips([timer, clip])
     audio = mp.AudioFileClip(AUDIO_OUTPUT + '/' + FileName(file) + '.mp3')
     clip.set_audio(audio) \
-        .write_videofile(VIDEO_OUTPUT + '/' + FileName(file) + '.mp4', fps=24, preset='medium', verbose=False, logger=None, threads=1)
+        .write_videofile(VIDEO_OUTPUT + '/' + FileName(file) + '.mp4', fps=24, preset='medium', verbose=False, logger=None, threads=2)
     
     clip.close()
     audio.close()
@@ -92,7 +92,7 @@ if __name__ == '__main__':
         songs += map(lambda x: (dif, x, data[x]), categories[category][dif])
     
     from multiprocessing import Pool, cpu_count
-    pool = Pool(processes=max(cpu_count() - 2, 1), initializer=init_worker)
+    pool = Pool(processes=max(round(cpu_count() / 2) - 2, 1), initializer=init_worker)
     try:
         for song in songs:
             pool.apply_async(createVideo, args=song)
