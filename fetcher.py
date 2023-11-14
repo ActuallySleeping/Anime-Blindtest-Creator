@@ -101,7 +101,7 @@ for song in songs:
             print("Error while fetching artists + song name for " + song)
             continue
         
-        data2 = r.json()['animethemre']
+        data2 = r.json()['animetheme']
 
         for artist in data2['song']['artists']:
             if artist['name'] not in saved[song].get('artists', []):

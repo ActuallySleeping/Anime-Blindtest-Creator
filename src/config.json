@@ -6,7 +6,7 @@
     "Difficile" : 30,
     "Impossible" : 30,
     "Obscure" : 20,
-    "La Spéciale" : 5
+    "La Spéciale" : 1
 },
 "starting time": {
     "Danganronpa-OP1.webm" : 2,
@@ -154,6 +154,7 @@
         "Danganronpa-OP1.webm",
         "Danganronpa-OP2.webm",
         "OnePunchManS2-OP1.webm",
+        "Haikyuu-OP1.webm",
         "OnePunchMan-OP1.webm"
     ],
     "Moyen" : [
@@ -386,7 +387,6 @@
         "Given-OP1-NCBD1080.webm",
         "91Days-OP1.webm",
         "Fabiniku-OP1-NCBD1080.webm",
-        "Haikyuu-OP1.webm",
         "Hyouka-OP1.webm",
         "Eizouken-OP1-NCBD1080.webm",
         "OreDakeHaireruKakushiDungeon-OP1-NCBD1080.webm",
