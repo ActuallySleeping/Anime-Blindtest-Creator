@@ -126,23 +126,18 @@ if __name__ == '__main__':
     reverse = {}
     for dif in categories[category]:
         for song in categories[category][dif]:
-            reverse[FileName(song)] = dif
+            reverse[os.path.splitext(song)[0]] = dif
             
     maximums = configs.get('maximums', {}) 
     new = []
     for file in files:
-        if getAnime(file) in doubles:
-            double = False
-            for song in doubles[getAnime(file)]:
-                if song in files:
-                    double = True
-                    break
-            if double:
-                continue
         if getAnime(file) in doubled:
             continue
-        else:
-            doubled.append(getAnime(file))
+        
+        doubled.append(getAnime(file))
+        for double in doubles[getAnime(file)]:
+            if double not in doubled:
+                doubled.append(double)
         
         cat = reverse[file]
         
