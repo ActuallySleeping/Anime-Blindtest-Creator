@@ -69,10 +69,10 @@ for type in anime.keys():
             download(song)
             
 API = "https://api.animethemes.moe/"
-if not os.path.exists("Generated/songs.json"):
-    json.dump({}, open("Generated/songs.json", "w"), indent=4)
+if not os.path.exists("src/songs.json"):
+    json.dump({}, open("src/songs.json", "w"), indent=4)
         
-saved = json.load(open("Generated/songs.json", "r"))
+saved = json.load(open("src/songs.json", "r"))
 
 songs = [song for type in anime.keys() for key in anime[type].keys() for song in anime[type][key] if song not in saved.keys()]
 
@@ -132,7 +132,7 @@ for song in songs:
     if len(name) > 35:
         print("Anime name is too long for " + name)
                     
-with open("Generated/songs.json", "w") as f:
+with open("src/songs.json", "w") as f:
     json.dump(saved, f, indent=4)
     
 if not os.path.exists("Generated/doubles.json"):

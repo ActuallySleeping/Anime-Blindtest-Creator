@@ -85,7 +85,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1].lower() in map(lambda x: x.lower(), categories.keys()):
         category = next(iter(filter(lambda x: x.lower() == sys.argv[1].lower(), categories.keys())))
     
-    data = json.load(open('Generated/songs.json'))
+    data = json.load(open('src/songs.json'))
     files, songs = [], []
     for dif in categories[category].keys():
         files += map(lambda x: FileName(x), categories[category][dif])
