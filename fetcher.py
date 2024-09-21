@@ -1,4 +1,4 @@
-import requests, json, sys, os, json
+import requests, json, sys, os, json, time
 
 DOWNLOAD = 'Generated/Downloads'
 VIDEO_URL = "https://v.animethemes.moe"
@@ -93,6 +93,8 @@ with open("src/config.json", "r") as f:
                 }
                 
                 for data['animethemeentries'] in data['animethemeentries']:
+
+                    time.sleep(60 / 90)
                     
                     r = requests.get(API + 'animetheme/' + str(data['animethemeentries']['animetheme']['id']) + '?include=song.artists')
                     
