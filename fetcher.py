@@ -94,7 +94,7 @@ with open("src/config.json", "r") as f:
                 
                 for data['animethemeentries'] in data['animethemeentries']:
 
-                    time.sleep(60 / 90)
+                    time.sleep(90 / 60)
                     
                     r = requests.get(API + 'animetheme/' + str(data['animethemeentries']['animetheme']['id']) + '?include=song.artists')
                     
